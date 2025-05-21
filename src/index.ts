@@ -15,4 +15,4 @@ app.listen(PORT, () => {
     console.log("El servidor está en el puerto", PORT);
 })
 
-app.use('/api', authRoutes); // Monta las rutas en /api
+app.use('/api', authRoutes);
