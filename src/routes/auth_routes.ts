@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAllUsers, getTimeToken, login, updateToken, getUserByUsername, saveUser, getUserById,updateUser, deleteUser, createProduct } from "../controllers/auth_controller";
+import { getAllUsers, getTimeToken, login, updateToken, getUserByUsername, saveUser, getUserById,updateUser, deleteUser, createProduct, createOrder } from "../controllers/auth_controller";
 import { createUser } from "../controllers/auth_controller";
 
 const router = Router();
@@ -19,6 +19,7 @@ router.patch('/users/:id', updateUser);
 router.delete('/users/:id', deleteUser);
 
 router.post('/product', createProduct);
+router.post('/users/orders', createOrder);
 
 
 /*
