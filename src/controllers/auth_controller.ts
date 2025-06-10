@@ -4,6 +4,7 @@ import { cache } from "../utils/cache";
 import dayjs from "dayjs";
 import { User } from "../models/User";
 import { Product } from "../models/Product";
+import { Order } from "../models/Order";
 import { Types } from "mongoose";
 import bcrypt from "bcryptjs";
 
@@ -245,13 +246,15 @@ export const createOrder = async (req: Request, res: Response) => {
 
         const total = Number((subtotal * 1.16).toFixed(2));
 
-        res.json({
-            userId,
-            status,
+        const newOrder = await Order.create({
+            createdBy: userId,
             products,
             subtotal,
-            total
+            total,
+            status
         });
+
+        res.status(201).json({ message: "Orden creada", order: newOrder });
     } catch (error) {
         console.error("Error al crear la orden:", error);
         res.status(500).json({ message: "Error al crear la orden", error });
