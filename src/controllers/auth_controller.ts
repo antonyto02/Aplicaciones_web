@@ -229,4 +229,33 @@ export const createProduct = async (req: Request, res: Response) => {
     }
 };
 
+export const createOrder = async (req: Request, res: Response) => {
+    try {
+        const { userId, status = "Pendiente", products = [] } = req.body;
+
+        if (!Array.isArray(products)) {
+            return res.status(400).json({ message: "La lista de productos es inválida" });
+        }
+
+        const subtotal = products.reduce((sum: number, prod: { quantity: number; price: number }) => {
+            const quantity = Number(prod.quantity) || 0;
+            const price = Number(prod.price) || 0;
+            return sum + quantity * price;
+        }, 0);
+
+        const total = Number((subtotal * 1.16).toFixed(2));
+
+        res.json({
+            userId,
+            status,
+            products,
+            subtotal,
+            total
+        });
+    } catch (error) {
+        console.error("Error al crear la orden:", error);
+        res.status(500).json({ message: "Error al crear la orden", error });
+    }
+};
+
 
