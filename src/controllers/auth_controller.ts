@@ -3,6 +3,7 @@ import { generateAccessToken } from "../utils/generateToken";
 import { cache } from "../utils/cache";
 import dayjs from "dayjs";
 import { User } from "../models/User";
+import { Product } from "../models/Product";
 import { Types } from "mongoose";
 import bcrypt from "bcryptjs";
 
@@ -215,6 +216,16 @@ export const deleteUser = async (req: Request, res: Response) => {
     } catch (error) {
         console.error("Error al desactivar usuario:", error);
         res.status(500).json({ message: "Error al desactivar usuario", error });
+    }
+};
+
+export const createProduct = async (req: Request, res: Response) => {
+    try {
+        const newProduct = await Product.create(req.body);
+        res.status(201).json({ message: "Producto creado", product: newProduct });
+    } catch (error) {
+        console.error("Error al crear producto:", error);
+        res.status(500).json({ message: "Error al crear producto", error });
     }
 };
 
